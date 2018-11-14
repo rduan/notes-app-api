@@ -5,7 +5,7 @@ import { success, failure } from './libs/response-lib';
 
 export async function main(event, context, callback) {
   const data = JSON.parse(event.body);
-
+  console.log('event', event.requestContext)
   const params = {
     TableName: 'notes',
     Item: {
@@ -21,6 +21,7 @@ export async function main(event, context, callback) {
     await dynamoDbLib.call('put', params);
     callback(null, success(params.Item));
   } catch (e) {
+    console.log('create error', e);
     callback(null, failure({ status: false }));
   }
 }
